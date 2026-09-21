@@ -8,6 +8,11 @@ export default defineConfig({
     host: '0.0.0.0',
     port: Number(process.env.PORT) || 4173,
     strictPort: false,
-    allowedHosts: ['portfolio-rcas.onrender.com', 'localhost', '127.0.0.1'],
+    allowedHosts: [
+      'portfolio-1-dul1.onrender.com',
+      'portfolio-rcas.onrender.com',
+      'localhost',
+      '127.0.0.1',
+    ],
   },
 })
