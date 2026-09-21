@@ -60,6 +60,10 @@ export default function Projects() {
     ]);
   };
 
+  const removeProject = (projectId) => {
+    setProjectList((prev) => prev.filter((project) => project.id !== projectId));
+  };
+
   return (
     <section id="projects" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,6 +115,15 @@ export default function Projects() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {projectList.map((project) => (
                 <div key={project.id} className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
+                  <div className="flex justify-end mb-3">
+                    <button
+                      type="button"
+                      onClick={() => removeProject(project.id)}
+                      className="rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-[10px] font-medium text-red-300 transition hover:bg-red-500/15"
+                    >
+                      Remove
+                    </button>
+                  </div>
                   <div className="space-y-3">
                     <input
                       value={project.title}

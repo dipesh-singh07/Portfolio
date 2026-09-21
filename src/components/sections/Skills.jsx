@@ -83,6 +83,23 @@ export default function Skills() {
     );
   };
 
+  const removeSkill = (categoryId, skillIndex) => {
+    setCategories((prev) =>
+      prev.map((category) => {
+        if (category.id !== categoryId) return category;
+
+        return {
+          ...category,
+          skills: category.skills.filter((_, index) => index !== skillIndex),
+        };
+      })
+    );
+  };
+
+  const removeCategory = (categoryId) => {
+    setCategories((prev) => prev.filter((category) => category.id !== categoryId));
+  };
+
   return (
     <section id="skills" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -214,6 +231,15 @@ export default function Skills() {
                         <Icon className="w-6 h-6" />
                       </div>
                       <div className="flex-1 space-y-2">
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={() => removeCategory(category.id)}
+                            className="rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-[10px] font-medium text-red-300 transition hover:bg-red-500/15"
+                          >
+                            Remove
+                          </button>
+                        </div>
                         <input
                           value={category.title}
                           onChange={(e) => updateCategory(category.id, 'title', e.target.value)}
@@ -245,6 +271,13 @@ export default function Skills() {
                             rows={2}
                             className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-[11px] text-zinc-300 outline-none focus:border-emerald-500"
                           />
+                          <button
+                            type="button"
+                            onClick={() => removeSkill(category.id, skillIndex)}
+                            className="w-full rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-[10px] font-medium text-red-300 transition hover:bg-red-500/15"
+                          >
+                            Remove Skill
+                          </button>
                         </div>
                       ))}
                     </div>

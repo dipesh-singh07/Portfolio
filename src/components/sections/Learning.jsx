@@ -49,6 +49,10 @@ export default function Learning() {
     ]);
   };
 
+  const removeLearningSkill = (index) => {
+    setLearningSkills((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
+  };
+
   return (
     <section id="learning" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,6 +151,15 @@ export default function Learning() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {learningSkills.map((item, index) => (
                 <div key={item.id || `${item.topic}-${index}`} className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-3">
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => removeLearningSkill(index)}
+                      className="rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-[10px] font-medium text-red-300 transition hover:bg-red-500/15"
+                    >
+                      Remove
+                    </button>
+                  </div>
                   <input
                     value={item.topic}
                     onChange={(e) => updateLearningSkill(index, 'topic', e.target.value)}
