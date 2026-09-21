@@ -55,6 +55,34 @@ export default function Skills() {
     );
   };
 
+  const addSkillCategory = () => {
+    const newId = `custom-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    setCategories((prev) => [
+      ...prev,
+      {
+        id: newId,
+        title: 'New Category',
+        description: 'Add a short description for this category.',
+        accent: 'cyan',
+        skills: [{ name: 'New Skill', highlight: 'Short description' }],
+      },
+    ]);
+  };
+
+  const addSkillToCategory = (categoryId) => {
+    setCategories((prev) =>
+      prev.map((category) =>
+        category.id === categoryId
+          ? {
+              ...category,
+              skills: [...category.skills, { name: 'New Skill', highlight: 'Short description' }],
+            }
+          : category
+      )
+    );
+  };
+
   return (
     <section id="skills" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,71 +175,93 @@ export default function Skills() {
             })}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {categories.map((category, index) => {
-              const Icon = categoryIcons[category.id] || Server;
-              const isEmerald = category.accent === 'emerald';
-              const isCyan = category.accent === 'cyan';
-              const isIndigo = category.accent === 'indigo';
+          <>
+            <div className="mb-6 flex justify-end">
+              <button
+                type="button"
+                onClick={addSkillCategory}
+                className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-300 transition hover:bg-emerald-500/15"
+              >
+                <PencilLine className="w-3.5 h-3.5" />
+                Add Category
+              </button>
+            </div>
 
-              return (
-                <div
-                  key={category.id}
-                  className="h-full rounded-2xl bg-zinc-900/60 border border-zinc-800 p-6 sm:p-7 backdrop-blur-md"
-                >
-                  <div className="flex items-start gap-4 mb-6">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${
-                        isEmerald
-                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
-                          : isCyan
-                          ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
-                          : isIndigo
-                          ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/25'
-                          : 'bg-amber-500/10 text-amber-400 border-amber-500/25'
-                      }`}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1 space-y-2">
-                      <input
-                        value={category.title}
-                        onChange={(e) => updateCategory(category.id, 'title', e.target.value)}
-                        className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm font-semibold text-white outline-none focus:border-emerald-500"
-                      />
-                      <textarea
-                        value={category.description}
-                        onChange={(e) => updateCategory(category.id, 'description', e.target.value)}
-                        rows={2}
-                        className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-emerald-500"
-                      />
-                    </div>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {categories.map((category) => {
+                const Icon = categoryIcons[category.id] || Server;
+                const isEmerald = category.accent === 'emerald';
+                const isCyan = category.accent === 'cyan';
+                const isIndigo = category.accent === 'indigo';
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {category.skills.map((skill, skillIndex) => (
+                return (
+                  <div
+                    key={category.id}
+                    className="h-full rounded-2xl bg-zinc-900/60 border border-zinc-800 p-6 sm:p-7 backdrop-blur-md"
+                  >
+                    <div className="flex items-start gap-4 mb-6">
                       <div
-                        key={`${category.id}-${skill.name}-${skillIndex}`}
-                        className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3 space-y-2"
+                        className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${
+                          isEmerald
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+                            : isCyan
+                            ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
+                            : isIndigo
+                            ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/25'
+                            : 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+                        }`}
                       >
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1 space-y-2">
                         <input
-                          value={skill.name}
-                          onChange={(e) => updateSkill(category.id, skillIndex, 'name', e.target.value)}
-                          className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-xs font-semibold text-white outline-none focus:border-emerald-500"
+                          value={category.title}
+                          onChange={(e) => updateCategory(category.id, 'title', e.target.value)}
+                          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm font-semibold text-white outline-none focus:border-emerald-500"
                         />
                         <textarea
-                          value={skill.highlight}
-                          onChange={(e) => updateSkill(category.id, skillIndex, 'highlight', e.target.value)}
+                          value={category.description}
+                          onChange={(e) => updateCategory(category.id, 'description', e.target.value)}
                           rows={2}
-                          className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-[11px] text-zinc-300 outline-none focus:border-emerald-500"
+                          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-emerald-500"
                         />
                       </div>
-                    ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {category.skills.map((skill, skillIndex) => (
+                        <div
+                          key={`${category.id}-${skill.name}-${skillIndex}`}
+                          className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3 space-y-2"
+                        >
+                          <input
+                            value={skill.name}
+                            onChange={(e) => updateSkill(category.id, skillIndex, 'name', e.target.value)}
+                            className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-xs font-semibold text-white outline-none focus:border-emerald-500"
+                          />
+                          <textarea
+                            value={skill.highlight}
+                            onChange={(e) => updateSkill(category.id, skillIndex, 'highlight', e.target.value)}
+                            rows={2}
+                            className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-[11px] text-zinc-300 outline-none focus:border-emerald-500"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => addSkillToCategory(category.id)}
+                      className="mt-4 inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] font-medium text-zinc-200 transition hover:border-emerald-500/40 hover:text-emerald-300"
+                    >
+                      <PencilLine className="w-3.5 h-3.5" />
+                      Add Skill
+                    </button>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </>
         )}
 
         <ScrollReveal delay={0.2} className="mt-12">

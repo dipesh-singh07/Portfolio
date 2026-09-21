@@ -42,6 +42,24 @@ export default function Projects() {
     );
   };
 
+  const addProject = () => {
+    const newId = `project-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    setProjectList((prev) => [
+      ...prev,
+      {
+        id: newId,
+        title: 'New Project',
+        tagline: 'Write a short project summary.',
+        badge: 'New',
+        description: 'Describe the project and its goals.',
+        status: 'In Progress',
+        technologies: ['React', 'Node.js'],
+        features: ['Add project features'],
+      },
+    ]);
+  };
+
   return (
     <section id="projects" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,52 +96,65 @@ export default function Projects() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {projectList.map((project) => (
-              <div key={project.id} className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
-                <div className="space-y-3">
-                  <input
-                    value={project.title}
-                    onChange={(e) => updateProject(project.id, 'title', e.target.value)}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-base font-bold text-white outline-none focus:border-cyan-500"
-                  />
-                  <input
-                    value={project.tagline}
-                    onChange={(e) => updateProject(project.id, 'tagline', e.target.value)}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-300 outline-none focus:border-cyan-500"
-                  />
-                  <input
-                    value={project.badge}
-                    onChange={(e) => updateProject(project.id, 'badge', e.target.value)}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-300 outline-none focus:border-cyan-500"
-                  />
-                  <textarea
-                    value={project.description}
-                    onChange={(e) => updateProject(project.id, 'description', e.target.value)}
-                    rows={4}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-cyan-500"
-                  />
-                  <input
-                    value={project.status}
-                    onChange={(e) => updateProject(project.id, 'status', e.target.value)}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs font-mono text-emerald-300 outline-none focus:border-cyan-500"
-                  />
-                  <textarea
-                    value={project.technologies.join(', ')}
-                    onChange={(e) => updateProject(project.id, 'technologies', e.target.value)}
-                    rows={2}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] text-zinc-300 outline-none focus:border-cyan-500"
-                  />
-                  <textarea
-                    value={project.features.join(', ')}
-                    onChange={(e) => updateProject(project.id, 'features', e.target.value)}
-                    rows={3}
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] text-zinc-300 outline-none focus:border-cyan-500"
-                  />
+          <>
+            <div className="mb-6 flex justify-end">
+              <button
+                type="button"
+                onClick={addProject}
+                className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-2 text-xs font-medium text-cyan-300 transition hover:bg-cyan-500/15"
+              >
+                <PencilLine className="w-3.5 h-3.5" />
+                Add Project
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {projectList.map((project) => (
+                <div key={project.id} className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
+                  <div className="space-y-3">
+                    <input
+                      value={project.title}
+                      onChange={(e) => updateProject(project.id, 'title', e.target.value)}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-base font-bold text-white outline-none focus:border-cyan-500"
+                    />
+                    <input
+                      value={project.tagline}
+                      onChange={(e) => updateProject(project.id, 'tagline', e.target.value)}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-300 outline-none focus:border-cyan-500"
+                    />
+                    <input
+                      value={project.badge}
+                      onChange={(e) => updateProject(project.id, 'badge', e.target.value)}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-300 outline-none focus:border-cyan-500"
+                    />
+                    <textarea
+                      value={project.description}
+                      onChange={(e) => updateProject(project.id, 'description', e.target.value)}
+                      rows={4}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-cyan-500"
+                    />
+                    <input
+                      value={project.status}
+                      onChange={(e) => updateProject(project.id, 'status', e.target.value)}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs font-mono text-emerald-300 outline-none focus:border-cyan-500"
+                    />
+                    <textarea
+                      value={project.technologies.join(', ')}
+                      onChange={(e) => updateProject(project.id, 'technologies', e.target.value)}
+                      rows={2}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] text-zinc-300 outline-none focus:border-cyan-500"
+                    />
+                    <textarea
+                      value={project.features.join(', ')}
+                      onChange={(e) => updateProject(project.id, 'features', e.target.value)}
+                      rows={3}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] text-zinc-300 outline-none focus:border-cyan-500"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
 
         <ProjectModal

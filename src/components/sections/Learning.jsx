@@ -34,6 +34,21 @@ export default function Learning() {
     );
   };
 
+  const addLearningSkill = () => {
+    const newId = `learning-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+    setLearningSkills((prev) => [
+      ...prev,
+      {
+        id: newId,
+        topic: 'New Topic',
+        category: 'Learning Path',
+        status: 'In Progress',
+        focus: 'Add a short description of what you are learning and why it matters.',
+      },
+    ]);
+  };
+
   return (
     <section id="learning" className="py-20 sm:py-28 relative">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,7 +89,7 @@ export default function Learning() {
         {!isEditing ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {learningSkills.map((item, index) => (
-              <ScrollReveal key={item.topic} delay={index * 0.05} className="h-full">
+              <ScrollReveal key={item.id || item.topic} delay={index * 0.05} className="h-full">
                 <div className="h-full rounded-xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700/80 p-5 backdrop-blur-md transition-all duration-300 hover:shadow-lg flex flex-col justify-between group">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
@@ -117,33 +132,46 @@ export default function Learning() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {learningSkills.map((item, index) => (
-              <div key={`${item.topic}-${index}`} className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-3">
-                <input
-                  value={item.topic}
-                  onChange={(e) => updateLearningSkill(index, 'topic', e.target.value)}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm font-bold text-white outline-none focus:border-cyan-500"
-                />
-                <input
-                  value={item.category}
-                  onChange={(e) => updateLearningSkill(index, 'category', e.target.value)}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] font-mono text-zinc-300 outline-none focus:border-cyan-500"
-                />
-                <input
-                  value={item.status}
-                  onChange={(e) => updateLearningSkill(index, 'status', e.target.value)}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] font-mono text-emerald-300 outline-none focus:border-cyan-500"
-                />
-                <textarea
-                  value={item.focus}
-                  onChange={(e) => updateLearningSkill(index, 'focus', e.target.value)}
-                  rows={4}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-cyan-500"
-                />
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="mb-6 flex justify-end">
+              <button
+                type="button"
+                onClick={addLearningSkill}
+                className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-2 text-xs font-medium text-cyan-300 transition hover:bg-cyan-500/15"
+              >
+                <PencilLine className="w-3.5 h-3.5" />
+                Add Topic
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {learningSkills.map((item, index) => (
+                <div key={item.id || `${item.topic}-${index}`} className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-3">
+                  <input
+                    value={item.topic}
+                    onChange={(e) => updateLearningSkill(index, 'topic', e.target.value)}
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm font-bold text-white outline-none focus:border-cyan-500"
+                  />
+                  <input
+                    value={item.category}
+                    onChange={(e) => updateLearningSkill(index, 'category', e.target.value)}
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] font-mono text-zinc-300 outline-none focus:border-cyan-500"
+                  />
+                  <input
+                    value={item.status}
+                    onChange={(e) => updateLearningSkill(index, 'status', e.target.value)}
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-[11px] font-mono text-emerald-300 outline-none focus:border-cyan-500"
+                  />
+                  <textarea
+                    value={item.focus}
+                    onChange={(e) => updateLearningSkill(index, 'focus', e.target.value)}
+                    rows={4}
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 outline-none focus:border-cyan-500"
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </section>
